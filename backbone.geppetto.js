@@ -6,14 +6,7 @@
 // Documentation and full license available at:
 // http://modeln.github.com/backbone.geppetto/
 
-define( [
-    "jquery",
-    "underscore",
-    "backbone",
-    "marionette"
-], function ( $, _, Backbone, Marionette ) {
-
-    Backbone.Marionette.Geppetto = (function ( Backbone, _, $ ) {
+Backbone.Marionette.Geppetto = (function ( Backbone, _, $ ) {
 
         var Geppetto = {};
 
@@ -154,6 +147,3 @@ define( [
         return Geppetto;
 
     })( Backbone, _, window.jQuery || window.Zepto || window.ender );
-
-    return Backbone.Marionette.Geppetto;
-} );
