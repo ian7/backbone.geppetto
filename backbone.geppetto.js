@@ -6,6 +6,8 @@
 // Documentation and full license available at:
 // http://modeln.github.com/backbone.geppetto/
 
+/*global Backbone,_*/
+
 Backbone.Marionette.Geppetto = (function ( Backbone, _, $ ) {
 
         var Geppetto = {};
@@ -21,7 +23,9 @@ Backbone.Marionette.Geppetto = (function ( Backbone, _, $ ) {
             this.parentContext = this.options.parentContext;
             this.vent = new Backbone.Marionette.EventAggregator();
 
-            this.initialize && this.initialize();
+            if( this.initialize ) {
+                this.initialize();
+            }
 
             this.id = _.uniqueId("Context");
 
@@ -34,6 +38,11 @@ Backbone.Marionette.Geppetto = (function ( Backbone, _, $ ) {
 
             var context = new this.options.context(this.options);
             var view = this.options.view;
+
+            // MN: this stuff is just practical
+            this.view = view;
+            this.model = this.options.view.model;
+            this.collection = this.options.view.collection;
 
             if (!view.close) {
                 view.close = Backbone.Marionette.View.close;
@@ -82,7 +91,9 @@ Backbone.Marionette.Geppetto = (function ( Backbone, _, $ ) {
                 commandInstance.context = this;
                 commandInstance.eventName = eventName;
                 commandInstance.eventData = eventData;
-                commandInstance.execute && commandInstance.execute();
+                if( commandInstance.execute ){
+                    commandInstance.execute();
+                }
 
             }, this );
         };
@@ -99,7 +110,7 @@ Backbone.Marionette.Geppetto = (function ( Backbone, _, $ ) {
         var extend = Backbone.View.extend;
         Geppetto.Context.extend = extend;
 
-        var contexts = {};
+        contexts = {};
 
         var debug = {
 
@@ -124,7 +135,7 @@ Backbone.Marionette.Geppetto = (function ( Backbone, _, $ ) {
 
                 _.each(contexts, function(context, id) {
                     if (contexts.hasOwnProperty(id)){
-                        numContexts++;
+                        numContexts = numContexts + 1;
                     }
                 });
                 return numContexts;
@@ -147,3 +158,11 @@ Backbone.Marionette.Geppetto = (function ( Backbone, _, $ ) {
         return Geppetto;
 
     })( Backbone, _, window.jQuery || window.Zepto || window.ender );
+
+
+Backbone.Marionette.Geppetto.Command = _.extend(function(){},{
+    extend : function( params ){
+        _(this.prototype).extend(params);
+        return this;
+    }
+});
