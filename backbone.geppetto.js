@@ -159,10 +159,16 @@ Backbone.Marionette.Geppetto = (function ( Backbone, _, $ ) {
 
     })( Backbone, _, window.jQuery || window.Zepto || window.ender );
 
+Backbone.Marionette.Geppetto.Command = function( c ){
+    var newCommand = function(){};
+    _.extend(newCommand.prototype, c );
+    return newCommand;
+};
 
-Backbone.Marionette.Geppetto.Command = _.extend(function(){},{
+/*_(function(){}).extend({
     extend : function( params ){
         _(this.prototype).extend(params);
         return this;
     }
 });
+*/
