@@ -61,13 +61,19 @@ Backbone.Marionette.Geppetto = (function ( Backbone, _, $ ) {
             view.context = context;
         };
 
-        Geppetto.Context.prototype.listen = function listen( eventName, callback ) {
-            this.vent.bindTo( eventName, callback );
+        // provided to unify with backbone events
+        Geppetto.Context.prototype.listen = function listen( eventName, callback, context ) {
+            this.vent.bindTo( eventName, callback, context );
         };
+
+        Geppetto.Context.prototype.on = Geppetto.Context.prototype.listen;
 
         Geppetto.Context.prototype.dispatch = function dispatch( eventName, eventData ) {
             this.vent.trigger( eventName, eventData );
         };
+
+        // provided to unify with backbone events
+        Geppetto.Context.prototype.trigger = Geppetto.Context.prototype.dispatch;
 
         Geppetto.Context.prototype.dispatchToParent = function dispatchToParent( eventName, eventData ) {
             if ( this.parentContext ) {
